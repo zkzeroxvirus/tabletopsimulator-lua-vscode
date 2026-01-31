@@ -3,6 +3,15 @@ import * as vscode from 'vscode';
 import * as BBCode from '@/BBCode';
 import TTSAdapter from '@/TTSAdapter';
 
+// Helper function to fix ASAR packaging path issues
+function fixAsarPath(uri: vscode.Uri): vscode.Uri {
+  const pathStr = uri.toString();
+  if (pathStr.includes('node_modules.asar')) {
+    return vscode.Uri.parse(pathStr.replace(/node_modules\.asar([/\\])/g, 'node_modules$1'));
+  }
+  return uri;
+}
+
 export default class TTSConsolePanel {
   public static currentPanel: TTSConsolePanel | undefined;
   public static readonly viewType = 'TTSConsole';
@@ -126,21 +135,16 @@ export default class TTSConsolePanel {
     const styleMainUri = webview.asWebviewUri(
       vscode.Uri.joinPath(this._extensionUri, 'assets', 'console.css')
     );
-    // Handle ASAR packaging: replace .asar with .asar.unpacked for node_modules
-    let codiconsPath = vscode.Uri.joinPath(
-      this._extensionUri,
-      'node_modules',
-      '@vscode/codicons',
-      'dist',
-      'codicon.css'
+    // Handle ASAR packaging: fix node_modules.asar path if present
+    const codiconsPath = fixAsarPath(
+      vscode.Uri.joinPath(
+        this._extensionUri,
+        'node_modules',
+        '@vscode/codicons',
+        'dist',
+        'codicon.css'
+      )
     );
-    // Fix ASAR path if needed (replace node_modules.asar with node_modules)
-    const pathStr = codiconsPath.toString();
-    if (pathStr.includes('node_modules.asar')) {
-      codiconsPath = vscode.Uri.parse(
-        pathStr.replace(/node_modules\.asar([/\\])/g, 'node_modules$1')
-      );
-    }
     const codiconsUri = webview.asWebviewUri(codiconsPath);
 
     // Use a nonce to only allow a specific script to be run.
@@ -214,15 +218,10 @@ function getNonce() {
 }
 
 export function getWebviewOptions(extensionUri: vscode.Uri): vscode.WebviewOptions {
-  // Handle ASAR packaging: replace .asar with .asar.unpacked for node_modules
-  let codiconsRoot = vscode.Uri.joinPath(extensionUri, 'node_modules', '@vscode/codicons', 'dist');
-  // Fix ASAR path if needed (replace node_modules.asar with node_modules)
-  const pathStr = codiconsRoot.toString();
-  if (pathStr.includes('node_modules.asar')) {
-    codiconsRoot = vscode.Uri.parse(
-      pathStr.replace(/node_modules\.asar([/\\])/g, 'node_modules$1')
-    );
-  }
+  // Handle ASAR packaging: fix node_modules.asar path if present
+  const codiconsRoot = fixAsarPath(
+    vscode.Uri.joinPath(extensionUri, 'node_modules', '@vscode/codicons', 'dist')
+  );
 
   return {
     enableScripts: true,
