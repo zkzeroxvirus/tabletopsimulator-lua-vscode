@@ -55,12 +55,41 @@ Extension for VSCode to make writing Lua scripts for  <a href="https://store.ste
 
 ## [Installation & Usage](https://tts-vscode.rolandostar.com/extension/setup)
 
+## Working with Tabletop Simulator Mods
+
+This extension is fully integrated with the official **[Tabletop Simulator Lua API](https://github.com/Berserk-Games/Tabletop-Simulator-API)**.
+
+### Features for Mod Development
+
+- **API-Aware IntelliSense**: Get autocomplete suggestions for all TTS Lua functions, objects, and events based on the official API
+- **Automatic API Updates**: Update to the latest TTS API without waiting for extension updates (Command: `TTS Lua: Update IntelliSense with latest TTS API`)
+- **API Documentation Links**: Hover over functions to see documentation with direct links to the official TTS API documentation
+- **Live Communication**: Connect directly to Tabletop Simulator to Get/Send scripts in real-time
+- **XML UI Support**: Full autocomplete and documentation for TTS XML UI elements
+
+### Quick Start for Mod Development
+
+1. **Install the Extension** from the VSCode Marketplace
+2. **Start Tabletop Simulator** and load your mod or create a new save
+3. **Enable External Editor API** in TTS: Configuration → Interface → check "External Editor API"
+4. **Get Scripts** in VSCode with `Ctrl+Alt+L` or Command Palette → `TTS Lua: Get Lua Scripts`
+5. **Make Changes** to your Lua scripts in VSCode with full autocomplete support
+6. **Save and Play** with `Ctrl+Alt+S` or Command Palette → `TTS Lua: Save And Play`
+
+### TTS API Resources
+
+- **Official API GitHub Repository**: [https://github.com/Berserk-Games/Tabletop-Simulator-API](https://github.com/Berserk-Games/Tabletop-Simulator-API)
+- **Hosted API Documentation**: [https://api.tabletopsimulator.com/](https://api.tabletopsimulator.com/)
+- **Scripting Community Help**: [Steam Community Forums](https://steamcommunity.com/app/286160/discussions/7/)
+- **Example Code**: [Official Examples](https://github.com/Berserk-Games/Tabletop-Simulator-API/tree/master/example_code)
+
 ## Additional Documentation
 
 - [Extension Configurations](https://tts-vscode.rolandostar.com/extension/configuration)
 - [Extension Commands](https://tts-vscode.rolandostar.com/extension/commands)
-- [Module Resolution (AKA Nested Files)]()
-- [Console++]()
+- [Module Resolution (AKA Nested Files)](https://tts-vscode.rolandostar.com/extension/moduleResolution)
+- [Console++](https://tts-vscode.rolandostar.com/extension/console++)
+- [API Updates Guide](https://tts-vscode.rolandostar.com/extension/apiUpdates)
 
 ## Release Notes
 

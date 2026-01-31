@@ -12,7 +12,17 @@ And welcome, this is the documentation for the Tabletop Simulator Lua extension 
 
 Check the [Setup](extension/setup) page for instructions on how to get started with the extension. Then check the [Extension](extension) section for a list of features and how to use them. And finally check the [FAQ](faq) page for answers to common questions.
 
+**New to TTS mod development?** Check out the [Working with TTS Mods](guides/workingWithMods) guide for a comprehensive introduction to developing Tabletop Simulator mods with this extension and the official TTS API.
+
 If you want to, check out the [Guides](guides) section for some guides on how to use the extension.
+
+## TTS API Integration
+
+This extension is fully integrated with the official **[Tabletop Simulator Lua API](https://github.com/Berserk-Games/Tabletop-Simulator-API)**:
+- Full autocomplete for all TTS Lua functions and objects
+- Automatic API updates from the official source
+- Hover documentation with links to API reference
+- Direct communication with Tabletop Simulator for live script editing
 
 ## About
 
