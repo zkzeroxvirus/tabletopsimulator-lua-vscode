@@ -126,15 +126,22 @@ export default class TTSConsolePanel {
     const styleMainUri = webview.asWebviewUri(
       vscode.Uri.joinPath(this._extensionUri, 'assets', 'console.css')
     );
-    const codiconsUri = webview.asWebviewUri(
-      vscode.Uri.joinPath(
-        this._extensionUri,
-        'node_modules',
-        '@vscode/codicons',
-        'dist',
-        'codicon.css'
-      )
+    // Handle ASAR packaging: replace .asar with .asar.unpacked for node_modules
+    let codiconsPath = vscode.Uri.joinPath(
+      this._extensionUri,
+      'node_modules',
+      '@vscode/codicons',
+      'dist',
+      'codicon.css'
     );
+    // Fix ASAR path if needed (replace node_modules.asar with node_modules)
+    const pathStr = codiconsPath.toString();
+    if (pathStr.includes('node_modules.asar')) {
+      codiconsPath = vscode.Uri.parse(
+        pathStr.replace(/node_modules\.asar([/\\])/g, 'node_modules$1')
+      );
+    }
+    const codiconsUri = webview.asWebviewUri(codiconsPath);
 
     // Use a nonce to only allow a specific script to be run.
     const nonce = getNonce();
@@ -207,11 +214,18 @@ function getNonce() {
 }
 
 export function getWebviewOptions(extensionUri: vscode.Uri): vscode.WebviewOptions {
+  // Handle ASAR packaging: replace .asar with .asar.unpacked for node_modules
+  let codiconsRoot = vscode.Uri.joinPath(extensionUri, 'node_modules', '@vscode/codicons', 'dist');
+  // Fix ASAR path if needed (replace node_modules.asar with node_modules)
+  const pathStr = codiconsRoot.toString();
+  if (pathStr.includes('node_modules.asar')) {
+    codiconsRoot = vscode.Uri.parse(
+      pathStr.replace(/node_modules\.asar([/\\])/g, 'node_modules$1')
+    );
+  }
+
   return {
     enableScripts: true,
-    localResourceRoots: [
-      vscode.Uri.joinPath(extensionUri, 'node_modules', '@vscode/codicons', 'dist'),
-      vscode.Uri.joinPath(extensionUri, 'assets'),
-    ],
+    localResourceRoots: [codiconsRoot, vscode.Uri.joinPath(extensionUri, 'assets')],
   };
 }

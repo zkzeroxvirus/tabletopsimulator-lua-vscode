@@ -504,7 +504,9 @@ export default class TTSAdapter extends vscode.Disposable {
         }
         // Lua File Creation
         // First create the file as-is
-        const luaHandler = new ws.FileHandler(`${scriptState.name}.${scriptState.guid}.lua`.replace(/\n/gi, ''));
+        const luaHandler = new ws.FileHandler(
+          `${scriptState.name}.${scriptState.guid}.lua`.replace(/\n/gi, '')
+        );
         await luaHandler.write(scriptState.script);
         try {
           // Then, attempt to unbundle
